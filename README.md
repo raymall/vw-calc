@@ -1,6 +1,7 @@
 # vw-calc()
+[![License][license-image]][license-url]
 
-A `Sass` function to scale pixel-based value(s) proportionally and accessible.
+[vw-calc()](https://raymall.github.io/vw-calc/) is a `Sass` function that scales pixel-based value(s) proportionally and accessible.
 
 ## Getting Started
 
@@ -39,6 +40,12 @@ Follow these steps to setup your project.
 ### Usage
 
 1. Import the function with Sass `@use` rule
+   ```sh 
+   @use 'vw-calc';
+   ```
+   
+   OR with an alias:
+
    ```sh
    @use 'vw-calc' as vw;
    ```

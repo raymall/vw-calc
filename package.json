@@ -9,13 +9,27 @@
   "scripts": {
     "dev": "npx parcel public/index.html --no-source-maps",
     "build": "npx parcel build public/index.html --public-url ./ --dist-dir docs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
-  "keywords": [],
+  "keywords": [
+    "Sass",
+    "SCSS",
+    "CSS",
+    "Responsive",
+    "Viewport",
+    "Styles",
+    "Calc",
+    "vw"
+  ],
   "author": "Raymall Pérez (https://github.com/raymall)",
   "license": "ISC",
   "devDependencies": {
     "@parcel/transformer-sass": "2.12.0",
-    "sass": "^1.77.8"
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.14.12",
+    "dart-sass": "^1.25.0",
+    "jest": "^29.7.0",
+    "sass": "^1.77.8",
+    "sass-true": "^8.0.0"
   }
 }

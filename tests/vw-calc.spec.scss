@@ -1,0 +1,19 @@
+@import 'true';
+@import '../src/vw-calc.scss';
+
+@include describe('vw-calc()') {
+  @include it('vw-calc(16) should return max(1rem, 0rem + 1.1111111111vw)') {
+    @include assert {
+      @include output {
+        .test {
+          font-size: vw-calc(16)
+        }
+      }
+      @include expect {
+        .test {
+          font-size: max(1rem, 0rem + 1.1111111111vw)
+        }
+      }
+    }
+  }
+}
