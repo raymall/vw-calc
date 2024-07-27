@@ -1,4 +1,4 @@
-const initSite = () => {
+const init = () => {
   const TARGET_INPUT = document.querySelectorAll('.js-target-input')
 
   const updateValues = () => {
@@ -45,4 +45,4 @@ const initSite = () => {
   window.addEventListener('resize', updateValues)
 }
 
-initSite()
+init()
