@@ -5,12 +5,14 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
+.parcel-cache
 
 # testing
 /coverage
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store

@@ -1,15 +1,20 @@
 {
   "name": "vw-calc",
-  "version": "1.0.0",
-  "description": "SASS function to scale values proportionally.",
-  "main": "src/_vw-calc.scss",
+  "version": "1.0.1",
+  "description": "Sass function to scale pixel-based value(s) proportionally and accessible.",
+  "main": "src/vw-calc.scss",
+  "targets": {
+    "main": false
+  },
   "scripts": {
+    "dev": "npx parcel site/index.html --no-source-maps",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Raymall Pérez (https://github.com/raymall)",
   "license": "ISC",
   "devDependencies": {
+    "@parcel/transformer-sass": "2.12.0",
     "sass": "^1.77.8"
   }
 }

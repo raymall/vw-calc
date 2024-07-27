@@ -1,0 +1,48 @@
+@use './src/vw-calc' as u with (
+  $default-wide-width: 1024,
+  $default-narrow-width: 375
+);
+
+html,
+body {
+  font-family: sans-serif;
+}
+
+.title {
+  font-size: u.vw-calc(56 72);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: u.vw-calc(16 32);
+  place-content: start;
+  place-items: start;
+}
+
+.input-output {
+  width: 100%;
+}
+
+.output {
+  padding: .25rem;
+  color: white;
+  border-radius: .25rem;
+  background-color: rgba(0, 128, 0, .8);
+}
+
+.heading {
+  color: red;
+  font-size: u.vw-calc(16 32);
+}
+
+.paragraph {
+  color: red;
+  font-size: u.vw-calc(12 24);
+}
+
+.box {
+  width: u.vw-calc(100 200);
+  height: u.vw-calc(100 200);
+  background-color: red;
+}
