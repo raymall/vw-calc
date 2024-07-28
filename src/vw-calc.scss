@@ -2,9 +2,9 @@
 @use "utils" as u;
 
 /***
-* Inspired by Pedro Rodríguez's CSS-Tricks article
-* Pedro's Article: https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/
-* Pedro's Twitter: https://twitter.com/pprg1996
+* Inspired by Pedro Rodríguez's article in CSS-Tricks
+* Article: https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/
+* Twitter: https://twitter.com/pprg1996
 ***/
 
 $default-wide-width: 1440 !default;
@@ -51,11 +51,11 @@ $default-base-font-size: 16 !default;
     $max-value-size: u.strip-unit(u.rem-calc(nth($values, 2)));
 
     @if nth($values, 1) > nth($values, 2) {
-      @error "(#{nth($values, 1)} < #{nth($values, 2)} = false) - {{max-value}} can't be lower than {{min-value}}.";
+      @error "#{nth($values, 1)} < #{nth($values, 2)} = false | {{max-value}} can't be lower than {{min-value}}.";
     }
 
     @if nth($values, 1) == nth($values, 2) {
-      @error "#{nth($values, 1)} === #{nth($values, 2)} - {{min-value}} cannot be the same than {{max-value}}";
+      @error "#{nth($values, 1)} === #{nth($values, 2)} | {{min-value}} cannot be equal to {{max-value}}.";
     }
   }
 
@@ -66,15 +66,15 @@ $default-base-font-size: 16 !default;
     $limit-value-size: u.strip-unit(u.rem-calc(nth($values, 3)));
 
     @if nth($values, 1) > nth($values, 2) {
-      @error "(#{nth($values, 1)} < #{nth($values, 2)} = false) - {{max-value}} can't be lower than {{min-value}}.";
+      @error "#{nth($values, 1)} < #{nth($values, 2)} = false | {{max-value}} can't be lower than {{min-value}}.";
     }
 
     @if nth($values, 2) > nth($values, 3) {
-      @error "(#{nth($values, 2)} < #{nth($values, 3)} = false) - {{limit-value}} can't be lower than {{max-value}}.";
+      @error "#{nth($values, 2)} < #{nth($values, 3)} = false | {{limit-value}} can't be lower than {{max-value}}.";
     }
 
     @if nth($values, 1) == nth($values, 2) {
-      @error "#{nth($values, 1)} === #{nth($values, 2)} - {{min-value}} cannot be the same than {{max-value}}";
+      @error "#{nth($values, 1)} === #{nth($values, 2)} | {{min-value}} cannot be equal to {{max-value}}.";
     }
   }
 
@@ -83,58 +83,38 @@ $default-base-font-size: 16 !default;
 
   $slope: math.div(($max-value-size - $min-value-size), ($max-width - $min-width));
   $y-axis-intersection: -$min-width * $slope + $min-value-size;
+  $slope-angle: calc(#{$y-axis-intersection}rem + #{$slope * 100}vw);
 
   @if $count == 3 {
-    @return clamp(
-      #{$min-value-size}rem,
-      #{$y-axis-intersection}rem + #{$slope * 100}vw,
-      #{$limit-value-size}rem
-    );
+    @return clamp(#{$min-value-size}rem, $slope-angle, #{$limit-value-size}rem);
   } 
   
   @if $count == 2 {
     @if $clamp {
-      @return clamp(
-        #{$min-value-size}rem,
-        #{$y-axis-intersection}rem + #{$slope * 100}vw,
-        #{$max-value-size}rem
-      );
+      @return clamp(#{$min-value-size}rem, $slope-angle, #{$max-value-size}rem);
     } @else {
-      @return max(
-        #{$min-value-size}rem,
-        #{$y-axis-intersection}rem + #{$slope * 100}vw
-      );
+      @return max(#{$min-value-size}rem, $slope-angle);
     }
   }
 
   @if $count == 1 {
     @if $clamp {
       @if $dynamic {
-        @return clamp(
-          #{$min-value-size}rem,
-          #{$y-axis-intersection}rem + #{$slope * 100}vw,
-          #{$max-value-size}rem
-        );
+        @return clamp(#{$min-value-size}rem, $slope-angle, #{$max-value-size}rem);
       } @else {
-        @warn "Unnecessary declaration: vw-calc(#{nth($values, 1)}) === #{math.div(nth($values, 1), 16)}rem, use rem value instead";
+        @warn "Unnecessary declaration: vw-calc(#{nth($values, 1)}) === #{math.div(nth($values, 1), 16)}rem, use rem value directly instead.";
         @return #{$max-value-size}rem;
       }
     } @else {
       @if $dynamic {
-        @return max(
-          #{$min-value-size}rem,
-          #{$y-axis-intersection}rem + #{$slope * 100}vw
-        );
+        @return max(#{$min-value-size}rem,$slope-angle);
       } @else {
-        @return max(
-          #{$max-value-size}rem,
-          #{$y-axis-intersection}rem + #{$slope * 100}vw
-        );
+        @return max(#{$max-value-size}rem, $slope-angle);
       }
     }
   }
 
   @if $count > 3 {
-    @error "(#{$values}) - More than 3 (three) values is not allowed.";
+    @error "(#{$values}) | Maximum of 3 (three) values allowed.";
   }
 }
