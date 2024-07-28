@@ -1,4 +1,4 @@
-const init = () => {
+const initDemo = () => {
   const TARGET_INPUT = document.querySelectorAll('.js-target-input')
 
   const updateValues = () => {
@@ -15,20 +15,18 @@ const init = () => {
       }
       
       const CSS_STYLE_RULES = document.styleSheets[0].cssRules
-
+      
       for (let i = 0; i < CSS_STYLE_RULES.length; i++) {
         const CSS_STYLE_RULE = CSS_STYLE_RULES[i]
         
-        if (!(CSS_STYLE_RULE instanceof CSSStyleRule)) {
-          return
-        }
-
-        if (CSS_STYLE_RULE.selectorText === `.${TARGET}`) {
-          TARGET_STYLED_OUTPUT.forEach((targetStyledOutput) => {
-            const targetPropertyAttr = targetStyledOutput.getAttribute('data-property')
-            targetPropertyAttr ?
-              targetStyledOutput.textContent = CSS_STYLE_RULE.style[targetPropertyAttr] : null
-          })
+        if (CSS_STYLE_RULE instanceof CSSStyleRule) {
+          if (CSS_STYLE_RULE.selectorText === `.demo--${TARGET}`) {
+            TARGET_STYLED_OUTPUT.forEach((targetStyledOutput) => {
+              const targetPropertyAttr = targetStyledOutput.getAttribute('data-property')
+              targetPropertyAttr ?
+                targetStyledOutput.textContent = CSS_STYLE_RULE.style[targetPropertyAttr] : null
+            })
+          }
         }
       }
       
@@ -45,4 +43,4 @@ const init = () => {
   window.addEventListener('resize', updateValues)
 }
 
-init()
+initDemo()

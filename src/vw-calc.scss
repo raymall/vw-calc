@@ -9,8 +9,8 @@
 
 $default-wide-width: 1440 !default;
 $default-narrow-width: 375 !default;
-$default-clamp: false !default;
 $default-narrow: false !default;
+$default-clamp: false !default;
 $default-dynamic: false !default;
 $default-base-font-size: 16 !default;
 
@@ -18,8 +18,8 @@ $default-base-font-size: 16 !default;
   $values,
   $wide-width: $default-wide-width,
   $narrow-width: $default-narrow-width,
-  $clamp: $default-clamp,
   $narrow: $default-narrow,
+  $clamp: $default-clamp,
   $dynamic: $default-dynamic,
   $base-font-size: $default-base-font-size
 ) {

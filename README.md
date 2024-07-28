@@ -1,5 +1,5 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 # vw-calc()
-[![License][license-image]][license-url]
 
 [vw-calc()](https://raymall.github.io/vw-calc/) is a `Sass` function that scales pixel-based value(s) proportionally and accessible.
 
@@ -20,8 +20,8 @@ Follow these steps to setup your project.
     $values,
     $wide-width,
     $narrow-width,
-    $clamp,
     $narrow,
+    $clamp,
     $dynamic,
     $base-font-size
   )
@@ -32,8 +32,8 @@ Follow these steps to setup your project.
 | `$values`         | `number - ($min-value, $max-value, $limit-value)` |         | One parameter required. Up to 3 (three) parameters allowed |
 | `$wide-width`     | `number`                                          | `1440`  | Unitless pixel-based value for wide screens |
 | `$narrow-width`   | `number`                                          | `375`   | Unitless pixel-based value for narrow screens |
-| `$clamp`          | `boolean`                                         | `false` | Enable to avoid the returned value to scale beyond `$wide-width` |
 | `$narrow`         | `boolean`                                         | `false` | If enabled `$values` MUST have 1 (one) parameter, which will be treated as the `$max-value`, then it will set `$min-value` to `0`. This helpful when the scaling will happen on narrow screens. |
+| `$clamp`          | `boolean`                                         | `false` | Enable to avoid the returned value to scale beyond `$wide-width` |
 | `$dynamic`        | `boolean`                                         | `false` | If enabled `$values` MUST have 1 (one) parameter, which will be treated as the `$max-value`, then it will apply a mathematical rule of three to calculate `$min-value` |
 | `$base-font-size` | `number`                                          | `16`    | Default base font size for most browsers |
 

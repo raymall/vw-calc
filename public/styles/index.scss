@@ -1,28 +1,96 @@
-@use './src/vw-calc' as u with (
-  $default-wide-width: 1024,
-  $default-narrow-width: 375
+@use "./src/utils" as u;
+@use './src/vw-calc' as vw with(
+  $default-clamp: true
 );
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
 html,
 body {
-  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #09090b;
+  font-family: "JetBrains Mono", monospace, sans-serif;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 vw.vw-calc(24 64);
+  max-width: u.rem-calc(1440);
 }
 
 .title {
-  font-size: u.vw-calc(56 72);
+  margin: 0;
+  padding: 0;
+  letter-spacing: u.rem-calc(-6);
+  font-size: vw.vw-calc(56 72);
+}
+
+.description {
+  font-size: vw.vw-calc(14 18);
+  font-weight: 300;
+
+  code {
+    font-weight: 700;
+  }
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: u.vw-calc(16 32);
+  grid-template-columns: 1fr;
+  gap: 0 vw.vw-calc(16 32);
   place-content: start;
   place-items: start;
+  border-top: u.rem-calc(1) solid rgba(9, 9, 11, .25);
 }
 
 .input-output {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: vw.vw-calc(16 56);
+  place-items: center;
+  place-content: start;
   width: 100%;
+  padding: u.rem-calc(32) 0;
+  font-size: vw.vw-calc(12 14);
+  color: rgba(0, 0, 0, .75);
+  border-bottom: u.rem-calc(1) solid rgba(9, 9, 11, .25);
+
+  .info {
+    width: 100%;
+  }
+  
+  .block {
+    margin-bottom: u.rem-calc(16);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    > span {
+      display: block;
+      font-weight: 700;
+      margin-bottom: u.rem-calc(4);
+    }
+  }
+  
+  code {
+    display: block;
+    width: fit-content;
+    padding: u.rem-calc(16);
+    font-size: vw.vw-calc(12 14);
+    line-height: vw.vw-calc(18 20);
+    color: white;
+    border-radius: u.rem-calc(8);
+    background: rgba(9, 9, 11, .5);
+  }
 }
+
 
 .output {
   padding: .25rem;
@@ -31,18 +99,22 @@ body {
   background-color: rgba(0, 128, 0, .8);
 }
 
-.heading {
-  color: red;
-  font-size: u.vw-calc(16 32);
-}
+.demo {
+  color: #00e;
 
-.paragraph {
-  color: red;
-  font-size: u.vw-calc(12 24);
-}
-
-.box {
-  width: u.vw-calc(100 200);
-  height: u.vw-calc(100 200);
-  background-color: red;
+  &--heading {
+    font-size: vw.vw-calc(16 32);
+  }
+  
+  &--paragraph {
+    font-size: vw.vw-calc(12 18);
+    line-height: vw.vw-calc(16 20);
+  }
+  
+  &--box {
+    width: vw.vw-calc(100 200);
+    height: vw.vw-calc(100 200);
+    border-radius: vw.vw-calc(12 24);
+    background-color: #00e;
+  }
 }
