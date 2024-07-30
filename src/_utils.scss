@@ -7,7 +7,7 @@
 @function value-to-rem($value, $base: null) {
   @if type-of($value) != "number" {
     @if $unit-warnings {
-      @warn inspect($value)+' was passed to rem-calc(), which is not a number.';
+      @warn inspect($value)+' is NaN.';
     }
 
     @return $value;
@@ -21,15 +21,14 @@
     $value: math.div(strip-unit($value), strip-unit($base)) * 1rem;
   }
 
-  @if $value ==0rem {
+  @if $value == 0rem {
     $value: 0;
   }
 
   @return $value;
 }
 
-@function rem-calc($values) {
-  $base: 16px;
+@function rem-calc($values, $base: 16) {
   $rem-values: ();
   $count: length($values);
 
@@ -38,7 +37,7 @@
   }
 
   @for $i from 1 through $count {
-    $rem-values: append($rem-values, - zf-to-rem(nth($values, $i), $base));
+    $rem-values: append($rem-values, - value-to-rem(nth($values, $i), $base));
   }
 
   @return $rem-values;

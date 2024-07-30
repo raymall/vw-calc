@@ -1,7 +1,5 @@
 @use "./src/utils" as u;
-@use './src/vw-calc' as vw with(
-  $default-clamp: true
-);
+@use './src/vw-calc' as vw;
 
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
@@ -18,10 +16,11 @@ body {
 }
 
 .container {
+  position: relative;
   width: 100%;
   margin: 0 auto;
   padding: 0 vw.vw-calc(24 64);
-  max-width: u.rem-calc(1440);
+  overflow: hidden;
 }
 
 .title {
@@ -40,13 +39,36 @@ body {
   }
 }
 
+.guide {
+  width: 100%;
+  margin: 0 auto;
+  font-size: u.rem-calc(12);
+  text-align: center;
+  border-bottom: u.rem-calc(1) solid rgba(9, 9, 11, .25);
+
+  &--wide {
+    max-width: u.rem-calc(1440);
+  }
+
+  &--narrow {
+    max-width: u.rem-calc(375);
+  }
+
+  span {
+    display: inline-block;
+    position: relative;
+    translate: 0 50%;
+    padding: 0 1rem;
+    background-color: white;
+  }
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0 vw.vw-calc(16 32);
   place-content: start;
   place-items: start;
-  border-top: u.rem-calc(1) solid rgba(9, 9, 11, .25);
 }
 
 .input-output {
@@ -60,6 +82,10 @@ body {
   font-size: vw.vw-calc(12 14);
   color: rgba(0, 0, 0, .75);
   border-bottom: u.rem-calc(1) solid rgba(9, 9, 11, .25);
+
+  @media screen and (max-width: u.rem-calc(768)) {
+    grid-template-columns: 1fr;
+  }
 
   .info {
     width: 100%;
