@@ -1,4 +1,3 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 # vw-calc()
 
 vw-calc() is a `SASS` function that scales pixel-based value(s) proportionally and accessible. See example [demo](https://raymall.github.io/vw-calc/).
@@ -39,7 +38,7 @@ Follow these steps to setup your project.
 
 ### Usage
 
-1. Import the function with Sass `@use` rule
+1. Import the function with SASS `@use` rule
    ```sh 
    @use 'vw-calc';
    ```
@@ -60,8 +59,14 @@ Follow these steps to setup your project.
 
    OR
 
-3. Passing the values directly in the Sass function, e.g:
+3. Passing the values directly in the SASS function, e.g:
    ```sh
     vw-calc(16 32, wide-width: 1200, narrow-width: 425);
    ```
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for details.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
