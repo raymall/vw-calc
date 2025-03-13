@@ -1,7 +1,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 # vw-calc()
 
-[vw-calc()](https://raymall.github.io/vw-calc/) is a `Sass` function that scales pixel-based value(s) proportionally and accessible.
+vw-calc() is a `SASS` function that scales pixel-based value(s) proportionally and accessible. See example [demo](https://raymall.github.io/vw-calc/).
 
 ## Getting Started
 
