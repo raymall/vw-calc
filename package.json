@@ -1,6 +1,6 @@
 {
   "name": "vw-calc",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Sass function to scale pixel-based value(s) proportionally and accessible.",
   "main": "src/vw-calc.scss",
   "targets": {
