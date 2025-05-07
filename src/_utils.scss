@@ -1,23 +1,34 @@
 @use "sass:math";
+@use "sass:list";
+@use "sass:meta";
+@use "sass:string";
+
+$unit-warnings: true !default;
 
 @function strip-unit($num) {
   @return math.div($num, $num * 0 + 1);
 }
 
+@function get-unit($value) {
+  @return string.slice($value * 0 + "", 2, -1);
+}
+
 @function value-to-rem($value, $base: null) {
-  @if type-of($value) != "number" {
+  @if meta.type-of($value) != "number" {
     @if $unit-warnings {
-      @warn inspect($value)+' is NaN.';
+      @warn meta.inspect($value)+' is NaN.';
     }
 
     @return $value;
   }
 
-  @if unit($value) == "em" {
+  $unit: get-unit($value);
+  
+  @if $unit == "em" {
     $value: strip-unit($value) * 1rem;
   }
 
-  @if unit($value) != "rem" {
+  @if $unit != "rem" {
     $value: math.div(strip-unit($value), strip-unit($base)) * 1rem;
   }
 
@@ -30,14 +41,14 @@
 
 @function rem-calc($values, $base: 16) {
   $rem-values: ();
-  $count: length($values);
+  $count: list.length($values);
 
   @if $count == 1 {
     @return value-to-rem($values, $base);
   }
 
   @for $i from 1 through $count {
-    $rem-values: append($rem-values, - value-to-rem(nth($values, $i), $base));
+    $rem-values: list.append($rem-values, - value-to-rem(list.nth($values, $i), $base));
   }
 
   @return $rem-values;

@@ -1,5 +1,11 @@
 @use "sass:math";
-@use "utils" as u;
+@use "sass:color";
+@use "sass:list";
+@use "sass:map";
+@use "sass:meta";
+@use "sass:selector";
+@use "sass:string";
+@use "./utils" as u;
 
 /***
 * Inspired by Pedro Rodríguez's article in CSS-Tricks
@@ -24,16 +30,16 @@ $default-base-font-size: 16 !default;
   $base-font-size: $default-base-font-size
 ) {
   $base-width: u.strip-unit($wide-width);
-  $count: length($values);
+  $count: list.length($values);
   $min-value: 0;
   $max-value: 0;
   $limit-value-size: 0;
 
   $min-width-px: u.strip-unit($narrow-width);
   $max-width-px: u.strip-unit($wide-width);
-  $min-value-size: u.strip-unit(u.rem-calc(nth($values, 1)));
-  $max-value-size: u.strip-unit(u.rem-calc(nth($values, 1)));
-  $limit-value-size: u.strip-unit(u.rem-calc(nth($values, 1)));
+  $min-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1)));
+  $max-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1)));
+  $limit-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1)));
 
   @if $narrow {
     $max-width-px: u.strip-unit($narrow-width);
@@ -47,34 +53,34 @@ $default-base-font-size: 16 !default;
   }
 
   @if $count == 2 {
-    $min-value-size: u.strip-unit(u.rem-calc(nth($values, 1)));
-    $max-value-size: u.strip-unit(u.rem-calc(nth($values, 2)));
+    $min-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1)));
+    $max-value-size: u.strip-unit(u.rem-calc(list.nth($values, 2)));
 
-    @if nth($values, 1) > nth($values, 2) {
-      @error "#{nth($values, 1)} < #{nth($values, 2)} = false | {{max-value}} can't be lower than {{min-value}}.";
+    @if list.nth($values, 1) > list.nth($values, 2) {
+      @error "#{list.nth($values, 1)} < #{list.nth($values, 2)} = false | {{max-value}} can't be lower than {{min-value}}.";
     }
 
-    @if nth($values, 1) == nth($values, 2) {
-      @error "#{nth($values, 1)} === #{nth($values, 2)} | {{min-value}} cannot be equal to {{max-value}}.";
+    @if list.nth($values, 1) == list.nth($values, 2) {
+      @error "#{list.nth($values, 1)} === #{list.nth($values, 2)} | {{min-value}} cannot be equal to {{max-value}}.";
     }
   }
 
   @if $count == 3 {
     $clamp: true;
-    $min-value-size: u.strip-unit(u.rem-calc(nth($values, 1)));
-    $max-value-size: u.strip-unit(u.rem-calc(nth($values, 2)));
-    $limit-value-size: u.strip-unit(u.rem-calc(nth($values, 3)));
+    $min-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1)));
+    $max-value-size: u.strip-unit(u.rem-calc(list.nth($values, 2)));
+    $limit-value-size: u.strip-unit(u.rem-calc(list.nth($values, 3)));
 
-    @if nth($values, 1) > nth($values, 2) {
-      @error "#{nth($values, 1)} < #{nth($values, 2)} = false | {{max-value}} can't be lower than {{min-value}}.";
+    @if list.nth($values, 1) > list.nth($values, 2) {
+      @error "#{list.nth($values, 1)} < #{list.nth($values, 2)} = false | {{max-value}} can't be lower than {{min-value}}.";
     }
 
-    @if nth($values, 2) > nth($values, 3) {
-      @error "#{nth($values, 2)} < #{nth($values, 3)} = false | {{limit-value}} can't be lower than {{max-value}}.";
+    @if list.nth($values, 2) > list.nth($values, 3) {
+      @error "#{list.nth($values, 2)} < #{list.nth($values, 3)} = false | {{limit-value}} can't be lower than {{max-value}}.";
     }
 
-    @if nth($values, 1) == nth($values, 2) {
-      @error "#{nth($values, 1)} === #{nth($values, 2)} | {{min-value}} cannot be equal to {{max-value}}.";
+    @if list.nth($values, 1) == list.nth($values, 2) {
+      @error "#{list.nth($values, 1)} === #{list.nth($values, 2)} | {{min-value}} cannot be equal to {{max-value}}.";
     }
   }
 
@@ -102,7 +108,7 @@ $default-base-font-size: 16 !default;
       @if $dynamic {
         @return clamp(#{$min-value-size}rem, $slope-angle, #{$max-value-size}rem);
       } @else {
-        @warn "Unnecessary declaration: vw-calc(#{nth($values, 1)}) === #{math.div(nth($values, 1), 16)}rem, use rem value directly instead.";
+        @warn "Unnecessary declaration: vw-calc(#{list.nth($values, 1)}) === #{math.div(list.nth($values, 1), 16)}rem, use rem value directly instead.";
         @return #{$max-value-size}rem;
       }
     } @else {
