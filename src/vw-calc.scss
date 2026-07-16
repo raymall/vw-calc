@@ -1,17 +1,10 @@
 @use "sass:math";
-@use "sass:color";
 @use "sass:list";
-@use "sass:map";
-@use "sass:meta";
-@use "sass:selector";
-@use "sass:string";
 @use "./utils" as u;
 
-/***
-* Inspired by Pedro Rodríguez's article in CSS-Tricks
-* Article: https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/
-* Twitter: https://twitter.com/pprg1996
-***/
+// Inspired by Pedro Rodríguez's article in CSS-Tricks
+// Article: https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/
+// Twitter: https://twitter.com/pprg1996
 
 $default-wide-width: 1440 !default;
 $default-narrow-width: 375 !default;
