@@ -1,6 +1,6 @@
 {
   "name": "vw-calc",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Sass function to scale pixel-based value(s) proportionally and accessible.",
   "main": "src/vw-calc.scss",
   "files": [
@@ -29,7 +29,7 @@
     "vw"
   ],
   "author": "Raymall Pérez (https://github.com/raymall)",
-  "license": "ISC",
+  "license": "MIT",
   "engines": {
     "node": ">=20"
   },

@@ -48,7 +48,7 @@ $unit-warnings: true !default;
   }
 
   @for $i from 1 through $count {
-    $rem-values: list.append($rem-values, - value-to-rem(list.nth($values, $i), $base));
+    $rem-values: list.append($rem-values, value-to-rem(list.nth($values, $i), $base));
   }
 
   @return $rem-values;
