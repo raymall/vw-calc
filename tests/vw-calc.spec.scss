@@ -1,5 +1,5 @@
-@import 'true';
-@import '../src/vw-calc.scss';
+@use 'true' as *;
+@use '../src/vw-calc' as *;
 
 @include describe('vw-calc()') {
   @include it('vw-calc(16) should return max(1rem, 0rem + 1.1111111111vw)') {
