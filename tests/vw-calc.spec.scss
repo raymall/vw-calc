@@ -1,5 +1,6 @@
 @use 'true' as *;
 @use '../src/vw-calc' as *;
+@use '../src/utils' as u;
 
 @include describe('vw-calc()') {
   @include it('vw-calc(16) should return max(1rem, 0rem + 1.1111111111vw)') {
@@ -12,6 +13,218 @@
       @include expect {
         .test {
           font-size: max(1rem, 0rem + 1.1111111111vw)
+        }
+      }
+    }
+  }
+
+  @include it('vw-calc(16, $dynamic: true) scales from a proportional minimum') {
+    @include assert {
+      @include output {
+        .test {
+          font-size: vw-calc(16, $dynamic: true)
+        }
+      }
+      @include expect {
+        .test {
+          font-size: max(0.2604166667rem, 0rem + 1.1111111111vw)
+        }
+      }
+    }
+  }
+
+  @include it('vw-calc(16, $narrow: true) scales up to $narrow-width only') {
+    @include assert {
+      @include output {
+        .test {
+          font-size: vw-calc(16, $narrow: true)
+        }
+      }
+      @include expect {
+        .test {
+          font-size: max(1rem, 0rem + 4.2666666667vw)
+        }
+      }
+    }
+  }
+
+  @include it('vw-calc(16, $clamp: true, $dynamic: true) returns a clamped scale') {
+    @include assert {
+      @include output {
+        .test {
+          font-size: vw-calc(16, $clamp: true, $dynamic: true)
+        }
+      }
+      @include expect {
+        .test {
+          font-size: clamp(0.2604166667rem, 0rem + 1.1111111111vw, 1rem)
+        }
+      }
+    }
+  }
+
+  @include it('vw-calc(16, $clamp: true) collapses to a plain rem value') {
+    @include assert {
+      @include output {
+        .test {
+          font-size: vw-calc(16, $clamp: true)
+        }
+      }
+      @include expect {
+        .test {
+          font-size: 1rem
+        }
+      }
+    }
+  }
+
+  @include it('vw-calc(16 32) should return max(1rem, 0.6478873239rem + 1.5023474178vw)') {
+    @include assert {
+      @include output {
+        .test {
+          font-size: vw-calc(16 32)
+        }
+      }
+      @include expect {
+        .test {
+          font-size: max(1rem, 0.6478873239rem + 1.5023474178vw)
+        }
+      }
+    }
+  }
+
+  @include it('vw-calc(16 32, $clamp: true) caps scaling at the max value') {
+    @include assert {
+      @include output {
+        .test {
+          font-size: vw-calc(16 32, $clamp: true)
+        }
+      }
+      @include expect {
+        .test {
+          font-size: clamp(1rem, 0.6478873239rem + 1.5023474178vw, 2rem)
+        }
+      }
+    }
+  }
+
+  @include it('vw-calc(16 32) honors custom breakpoint widths') {
+    @include assert {
+      @include output {
+        .test {
+          font-size: vw-calc(16 32, $wide-width: 1200, $narrow-width: 425)
+        }
+      }
+      @include expect {
+        .test {
+          font-size: max(1rem, 0.4516129032rem + 2.064516129vw)
+        }
+      }
+    }
+  }
+
+  @include it('vw-calc(16 32, $base-font-size: 8) applies the base to rem values and slope') {
+    @include assert {
+      @include output {
+        .test {
+          font-size: vw-calc(16 32, $base-font-size: 8)
+        }
+      }
+      @include expect {
+        .test {
+          font-size: max(2rem, 1.2957746479rem + 1.5023474178vw)
+        }
+      }
+    }
+  }
+
+  @include it('vw-calc(8 16 24) returns clamp() with an upper limit') {
+    @include assert {
+      @include output {
+        .test {
+          font-size: vw-calc(8 16 24)
+        }
+      }
+      @include expect {
+        .test {
+          font-size: clamp(0.5rem, 0.323943662rem + 0.7511737089vw, 1.5rem)
+        }
+      }
+    }
+  }
+}
+
+@include describe('rem-calc()') {
+  @include it('converts a single pixel value to rem') {
+    @include assert {
+      @include output {
+        .test {
+          margin: u.rem-calc(24)
+        }
+      }
+      @include expect {
+        .test {
+          margin: 1.5rem
+        }
+      }
+    }
+  }
+
+  @include it('converts a two-value list without negating') {
+    @include assert {
+      @include output {
+        .test {
+          margin: u.rem-calc(16 32)
+        }
+      }
+      @include expect {
+        .test {
+          margin: 1rem 2rem
+        }
+      }
+    }
+  }
+
+  @include it('converts a four-value shorthand list') {
+    @include assert {
+      @include output {
+        .test {
+          margin: u.rem-calc(16 32 48 4)
+        }
+      }
+      @include expect {
+        .test {
+          margin: 1rem 2rem 3rem 0.25rem
+        }
+      }
+    }
+  }
+
+  @include it('honors a custom base') {
+    @include assert {
+      @include output {
+        .test {
+          margin: u.rem-calc(16, 8)
+        }
+      }
+      @include expect {
+        .test {
+          margin: 2rem
+        }
+      }
+    }
+  }
+
+  @include it('passes rem values through unchanged') {
+    @include assert {
+      @include output {
+        .test {
+          margin: u.rem-calc(1.5rem)
+        }
+      }
+      @include expect {
+        .test {
+          margin: 1.5rem
         }
       }
     }

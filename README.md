@@ -49,6 +49,8 @@ Follow these steps to setup your project.
    @use 'vw-calc' as vw;
    ```
 
+   > **Note:** `@use 'vw-calc'` resolves through `node_modules`, which bundlers like Parcel, Vite, and webpack add to the Sass load path automatically. With the standalone Sass CLI, pass `--load-path=node_modules`.
+
 2. Change the default values as needed prepending `$default-` to the parameter name, e.g:
    ```sh
     @use 'vw-calc' as vw with (
@@ -61,7 +63,7 @@ Follow these steps to setup your project.
 
 3. Passing the values directly in the SASS function, e.g:
    ```sh
-    vw-calc(16 32, wide-width: 1200, narrow-width: 425);
+    vw-calc(16 32, $wide-width: 1200, $narrow-width: 425);
    ```
 
 ## License

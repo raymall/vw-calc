@@ -22,17 +22,17 @@ $default-base-font-size: 16 !default;
   $dynamic: $default-dynamic,
   $base-font-size: $default-base-font-size
 ) {
-  $base-width: u.strip-unit($wide-width);
   $count: list.length($values);
-  $min-value: 0;
-  $max-value: 0;
-  $limit-value-size: 0;
+
+  @if $count > 3 {
+    @error "(#{$values}) | Maximum of 3 (three) values allowed.";
+  }
 
   $min-width-px: u.strip-unit($narrow-width);
   $max-width-px: u.strip-unit($wide-width);
-  $min-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1)));
-  $max-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1)));
-  $limit-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1)));
+  $min-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1), $base-font-size));
+  $max-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1), $base-font-size));
+  $limit-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1), $base-font-size));
 
   @if $narrow {
     $max-width-px: u.strip-unit($narrow-width);
@@ -41,13 +41,13 @@ $default-base-font-size: 16 !default;
   
   @if $count == 1 {
     $temp-min-value-size: math.div(($min-width-px * u.strip-unit($values)), $max-width-px);
-    $min-value-size: u.strip-unit(u.rem-calc($temp-min-value-size));
-    $max-value-size: u.strip-unit(u.rem-calc($values));
+    $min-value-size: u.strip-unit(u.rem-calc($temp-min-value-size, $base-font-size));
+    $max-value-size: u.strip-unit(u.rem-calc($values, $base-font-size));
   }
 
   @if $count == 2 {
-    $min-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1)));
-    $max-value-size: u.strip-unit(u.rem-calc(list.nth($values, 2)));
+    $min-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1), $base-font-size));
+    $max-value-size: u.strip-unit(u.rem-calc(list.nth($values, 2), $base-font-size));
 
     @if list.nth($values, 1) > list.nth($values, 2) {
       @error "#{list.nth($values, 1)} < #{list.nth($values, 2)} = false | {{max-value}} can't be lower than {{min-value}}.";
@@ -60,9 +60,9 @@ $default-base-font-size: 16 !default;
 
   @if $count == 3 {
     $clamp: true;
-    $min-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1)));
-    $max-value-size: u.strip-unit(u.rem-calc(list.nth($values, 2)));
-    $limit-value-size: u.strip-unit(u.rem-calc(list.nth($values, 3)));
+    $min-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1), $base-font-size));
+    $max-value-size: u.strip-unit(u.rem-calc(list.nth($values, 2), $base-font-size));
+    $limit-value-size: u.strip-unit(u.rem-calc(list.nth($values, 3), $base-font-size));
 
     @if list.nth($values, 1) > list.nth($values, 2) {
       @error "#{list.nth($values, 1)} < #{list.nth($values, 2)} = false | {{max-value}} can't be lower than {{min-value}}.";
@@ -101,7 +101,7 @@ $default-base-font-size: 16 !default;
       @if $dynamic {
         @return clamp(#{$min-value-size}rem, $slope-angle, #{$max-value-size}rem);
       } @else {
-        @warn "Unnecessary declaration: vw-calc(#{list.nth($values, 1)}) === #{math.div(list.nth($values, 1), 16)}rem, use rem value directly instead.";
+        @warn "Unnecessary declaration: vw-calc(#{list.nth($values, 1)}) === #{math.div(list.nth($values, 1), $base-font-size)}rem, use rem value directly instead.";
         @return #{$max-value-size}rem;
       }
     } @else {
@@ -111,9 +111,5 @@ $default-base-font-size: 16 !default;
         @return max(#{$max-value-size}rem, $slope-angle);
       }
     }
-  }
-
-  @if $count > 3 {
-    @error "(#{$values}) | Maximum of 3 (three) values allowed.";
   }
 }
