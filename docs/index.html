@@ -1,116 +1,202 @@
-<!DOCTYPE html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width, initial-scale=1.0"><title>vw-calc()</title><link rel=stylesheet href=styles.css><body>
-    <div class=container>
-      <h1 class=title>
-        vw-calc()
-      </h1>
-      <p class=description>
-        A <code>Sass</code> function that scales pixel-based value(s) proportionally and accessible.
-      </p>
-      <small>Resize your screen and see it in action!</small>
-    </div>
-    <div class="guide guide--wide">
-      <span>1440</span>
-    </div>
-    <div class="guide guide--narrow">
-      <span>375</span>
-    </div>
-    <div class=container>
-      <div class=grid>
-        <div class=input-output>
-          <div class=info>
-            <div class=block>
-              <span>Input:</span>
-              <code>
-                <span>font-size: vw-calc(16 32);</span>
-              </code>
-            </div>
-        
-            <div class=block>
-              <span>Styled Output:</span>
-              <code>
-                font-size: <span data-target=heading data-property=fontSize class=js-target-styled-output>[]</span>;
-              </code>
-            </div>
-        
-            <div class=block>
-              <span>Computed Output:</span>
-              <code>
-                font-size: <span data-target=heading data-property=fontSize class="js-target-computed-output output">[]</span>;
-              </code>
-            </div>
-          </div>
-  
-          <h1 class="demo demo--heading js-target-input" data-target=heading>
-            This is a H1 heading
-          </h1>
-        </div>
-    
-        <div class=input-output>
-          <div class=info>
-            <div class=block>
-              <span>Input:</span>
-              <code>
-                font-size: vw-calc(12 18); <br>
-                line-height: vw-calc(16 20);
-              </code>
-            </div>
-        
-            <div class=block>
-              <span>Styled Output:</span>
-              <code>
-                font-size: <span data-target=paragraph data-property=fontSize class=js-target-styled-output>[]</span>; <br>
-                line-height: <span data-target=paragraph data-property=lineHeight class=js-target-styled-output>[]</span>;
-              </code>
-            </div>
-        
-            <div class=block>
-              <span>Computed Output:</span>
-              <code>
-                font-size: <span data-target=paragraph data-property=fontSize class="js-target-computed-output output">[]</span>; <br>
-                line-height: <span data-target=paragraph data-property=lineHeight class="js-target-computed-output output">[]</span>;
-              </code>
-            </div>
-          </div>
-  
-          <p class="demo demo--paragraph js-target-input" data-target=paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe inventore consequatur porro placeat, atque officiis vel aperiam qui ab illo nulla, voluptatum corrupti doloremque id at asperiores voluptate beatae neque.
-          </p>
-        </div>
-    
-        <div class=input-output>
-          <div class=info>
-            <div class=block>
-              <span>Input:</span>
-              <code>
-                width: vw-calc(100 200); <br>
-                height: vw-calc(100 200); <br>
-                border-radius: vw-calc(6 12);
-              </code>
-            </div>
-        
-            <div class=block>
-              <span>Styled Output:</span>
-              <code>
-                width: <span data-target=box data-property=width class=js-target-styled-output>[]</span>; <br>
-                height: <span data-target=box data-property=height class=js-target-styled-output>[]</span>; <br>
-                border-radius: <span data-target=box data-property=borderRadius class=js-target-styled-output>[]</span>;
-              </code>
-            </div>
-        
-            <div class=block>
-              <span>Computed Output:</span>
-              <code>
-                width: <span data-target=box data-property=width class="js-target-computed-output output">[]</span>; <br>
-                height: <span data-target=box data-property=height class="js-target-computed-output output">[]</span>; <br>
-                border-radius: <span data-target=box data-property=border-radius class="js-target-computed-output output">[]</span>;
-              </code>
-            </div>
-          </div>
-  
-          <div class="demo demo--box js-target-input" data-target=box></div>
-        </div>
+<!DOCTYPE html><html lang=en><meta charset=utf-8><meta name=viewport content="width=device-width, initial-scale=1.0"><meta name=description content="Interactive playground for vw-calc(), a Sass function that turns pixel values into fluid, accessible max()/clamp() expressions."><title>vw-calc() — fluid sizing playground</title><link rel=stylesheet href=styles.css><body>
+    <header class="container masthead">
+      <div class=masthead__bar>
+        <p class=masthead__tags>
+          <span>Sass function</span>
+          <span>v1.2.0</span>
+          <span>MIT</span>
+        </p>
+        <p class=masthead__viewport>viewport <span class="js-viewport masthead__viewport-value">–</span>px</p>
       </div>
-    </div>
+      <h1 class=masthead__title>vw-calc()</h1>
+      <p class=masthead__lede>
+        A <code>Sass</code> function that turns pixel values into fluid <code>max()</code>/<code>clamp()</code>
+        expressions built from <code>rem</code>&nbsp;+&nbsp;<code>vw</code> — sizes scale linearly with the
+        viewport and still respect the reader's font-size preference.
+      </p>
+      <p class=masthead__hint>Resize the window · edit any value · everything recomputes live</p>
+      <noscript>
+        <p class="noscript">JavaScript is disabled — the examples below fall back to their compiled Sass styles, but editing is unavailable.</p>
+      </noscript>
+    </header>
 
-    <script src=scripts.js></script>
+    <section class=guides aria-label="Breakpoint guides">
+      <div class="guide guide--wide js-guide" data-breakpoint=1440>
+        <span class=guide__label>
+          <strong>1440</strong> $wide-width · <span class="guide__state js-guide-state">–</span>
+        </span>
+      </div>
+      <div class="guide guide--narrow js-guide" data-breakpoint=375>
+        <span class=guide__label>
+          <strong>375</strong> $narrow-width · <span class="guide__state js-guide-state">–</span>
+        </span>
+      </div>
+    </section>
+
+    <main class=container>
+      <section class="example js-example" aria-labelledby=example-1-title>
+        <header class=example__head>
+          <span class=example__index aria-hidden=true>01</span>
+          <h2 class=example__title id=example-1-title>Heading — font-size</h2>
+        </header>
+        <div class=example__grid>
+          <div class=example__stage>
+            <p class="demo demo--heading js-demo">The quick brown fox jumps over the lazy dog</p>
+          </div>
+          <div class=example__panel>
+            <div class=block>
+              <h3 class=block__label>Input</h3>
+              <div class="code code--input">
+                <span class="code__line js-decl" data-decl=font-size><span class=code__prop>font-size</span>: vw-calc(<input class="field js-val" type=number step=any value=16 aria-label="font-size — value 1 (min, px)"> <input class="field js-val" type=number step=any value=32 aria-label="font-size — value 2 (max, px)"> <input class="field js-val" type=number step=any placeholder=– aria-label="font-size — value 3 (limit, px, optional)"><span class="code__args js-args"></span>);</span>
+              </div>
+              <p class="decl-message js-message" data-decl=font-size role=status></p>
+            </div>
+            <div class=block>
+              <h3 class=block__label>Arguments</h3>
+              <div class=args>
+                <label class="arg arg--num">$narrow-width: <input class="field-light js-arg" data-arg=narrowWidth type=number step=any value=375></label>
+                <label class="arg arg--num">$wide-width: <input class="field-light js-arg" data-arg=wideWidth type=number step=any value=1440></label>
+                <label class="arg arg--flag"><input class=js-arg data-arg=narrow type=checkbox><span class=arg__chip>$narrow</span></label>
+                <label class="arg arg--flag"><input class=js-arg data-arg=clamp type=checkbox><span class=arg__chip>$clamp</span></label>
+                <label class="arg arg--flag"><input class=js-arg data-arg=dynamic type=checkbox><span class=arg__chip>$dynamic</span></label>
+              </div>
+            </div>
+            <div class=block>
+              <h3 class=block__label>Styled output</h3>
+              <code class="code code--styled" tabindex=0 aria-label="Styled output code">
+                <span class=code__line><span class=code__prop>font-size</span>: <span class="code__value js-styled" data-decl=font-size>–</span>;</span>
+              </code>
+            </div>
+            <div class=block>
+              <h3 class=block__label>Computed output — live</h3>
+              <code class="code code--computed" tabindex=0 aria-label="Computed output code">
+                <span class=code__line><span class=code__prop>font-size</span>: <span class="code__value js-computed" data-decl=font-size>–</span>;</span>
+              </code>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="example js-example" aria-labelledby=example-2-title>
+        <header class=example__head>
+          <span class=example__index aria-hidden=true>02</span>
+          <h2 class=example__title id=example-2-title>Paragraph — font-size · line-height</h2>
+        </header>
+        <div class=example__grid>
+          <div class=example__stage>
+            <p class="demo demo--paragraph js-demo">
+              Both the font-size and the line-height of this paragraph are single max() expressions —
+              no media queries. The rem term keeps them honest when a reader raises their base
+              font-size; the vw term makes them track the viewport between the two guides above.
+            </p>
+          </div>
+          <div class=example__panel>
+            <div class=block>
+              <h3 class=block__label>Input</h3>
+              <div class="code code--input">
+                <span class="code__line js-decl" data-decl=font-size><span class=code__prop>font-size</span>: vw-calc(<input class="field js-val" type=number step=any value=12 aria-label="font-size — value 1 (min, px)"> <input class="field js-val" type=number step=any value=18 aria-label="font-size — value 2 (max, px)"> <input class="field js-val" type=number step=any placeholder=– aria-label="font-size — value 3 (limit, px, optional)"><span class="code__args js-args"></span>);</span>
+                <span class="code__line js-decl" data-decl=line-height><span class=code__prop>line-height</span>: vw-calc(<input class="field js-val" type=number step=any value=16 aria-label="line-height — value 1 (min, px)"> <input class="field js-val" type=number step=any value=20 aria-label="line-height — value 2 (max, px)"> <input class="field js-val" type=number step=any placeholder=– aria-label="line-height — value 3 (limit, px, optional)"><span class="code__args js-args"></span>);</span>
+              </div>
+              <p class="decl-message js-message" data-decl=font-size role=status></p>
+              <p class="decl-message js-message" data-decl=line-height role=status></p>
+            </div>
+            <div class=block>
+              <h3 class=block__label>Arguments</h3>
+              <div class=args>
+                <label class="arg arg--num">$narrow-width: <input class="field-light js-arg" data-arg=narrowWidth type=number step=any value=375></label>
+                <label class="arg arg--num">$wide-width: <input class="field-light js-arg" data-arg=wideWidth type=number step=any value=1440></label>
+                <label class="arg arg--flag"><input class=js-arg data-arg=narrow type=checkbox><span class=arg__chip>$narrow</span></label>
+                <label class="arg arg--flag"><input class=js-arg data-arg=clamp type=checkbox><span class=arg__chip>$clamp</span></label>
+                <label class="arg arg--flag"><input class=js-arg data-arg=dynamic type=checkbox><span class=arg__chip>$dynamic</span></label>
+              </div>
+            </div>
+            <div class=block>
+              <h3 class=block__label>Styled output</h3>
+              <code class="code code--styled" tabindex=0 aria-label="Styled output code">
+                <span class=code__line><span class=code__prop>font-size</span>: <span class="code__value js-styled" data-decl=font-size>–</span>;</span>
+                <span class=code__line><span class=code__prop>line-height</span>: <span class="code__value js-styled" data-decl=line-height>–</span>;</span>
+              </code>
+            </div>
+            <div class=block>
+              <h3 class=block__label>Computed output — live</h3>
+              <code class="code code--computed" tabindex=0 aria-label="Computed output code">
+                <span class=code__line><span class=code__prop>font-size</span>: <span class="code__value js-computed" data-decl=font-size>–</span>;</span>
+                <span class=code__line><span class=code__prop>line-height</span>: <span class="code__value js-computed" data-decl=line-height>–</span>;</span>
+              </code>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="example js-example" aria-labelledby=example-3-title>
+        <header class=example__head>
+          <span class=example__index aria-hidden=true>03</span>
+          <h2 class=example__title id=example-3-title>Box — width · height · border-radius</h2>
+        </header>
+        <div class=example__grid>
+          <div class=example__stage>
+            <div class="demo demo--box js-demo" aria-hidden=true></div>
+          </div>
+          <div class=example__panel>
+            <div class=block>
+              <h3 class=block__label>Input</h3>
+              <div class="code code--input">
+                <span class="code__line js-decl" data-decl=width><span class=code__prop>width</span>: vw-calc(<input class="field js-val" type=number step=any value=100 aria-label="width — value 1 (min, px)"> <input class="field js-val" type=number step=any value=200 aria-label="width — value 2 (max, px)"> <input class="field js-val" type=number step=any placeholder=– aria-label="width — value 3 (limit, px, optional)"><span class="code__args js-args"></span>);</span>
+                <span class="code__line js-decl" data-decl=height><span class=code__prop>height</span>: vw-calc(<input class="field js-val" type=number step=any value=100 aria-label="height — value 1 (min, px)"> <input class="field js-val" type=number step=any value=200 aria-label="height — value 2 (max, px)"> <input class="field js-val" type=number step=any placeholder=– aria-label="height — value 3 (limit, px, optional)"><span class="code__args js-args"></span>);</span>
+                <span class="code__line js-decl" data-decl=border-radius><span class=code__prop>border-radius</span>: vw-calc(<input class="field js-val" type=number step=any value=12 aria-label="border-radius — value 1 (min, px)"> <input class="field js-val" type=number step=any value=24 aria-label="border-radius — value 2 (max, px)"> <input class="field js-val" type=number step=any placeholder=– aria-label="border-radius — value 3 (limit, px, optional)"><span class="code__args js-args"></span>);</span>
+              </div>
+              <p class="decl-message js-message" data-decl=width role=status></p>
+              <p class="decl-message js-message" data-decl=height role=status></p>
+              <p class="decl-message js-message" data-decl=border-radius role=status></p>
+            </div>
+            <div class=block>
+              <h3 class=block__label>Arguments</h3>
+              <div class=args>
+                <label class="arg arg--num">$narrow-width: <input class="field-light js-arg" data-arg=narrowWidth type=number step=any value=375></label>
+                <label class="arg arg--num">$wide-width: <input class="field-light js-arg" data-arg=wideWidth type=number step=any value=1440></label>
+                <label class="arg arg--flag"><input class=js-arg data-arg=narrow type=checkbox><span class=arg__chip>$narrow</span></label>
+                <label class="arg arg--flag"><input class=js-arg data-arg=clamp type=checkbox><span class=arg__chip>$clamp</span></label>
+                <label class="arg arg--flag"><input class=js-arg data-arg=dynamic type=checkbox><span class=arg__chip>$dynamic</span></label>
+              </div>
+            </div>
+            <div class=block>
+              <h3 class=block__label>Styled output</h3>
+              <code class="code code--styled" tabindex=0 aria-label="Styled output code">
+                <span class=code__line><span class=code__prop>width</span>: <span class="code__value js-styled" data-decl=width>–</span>;</span>
+                <span class=code__line><span class=code__prop>height</span>: <span class="code__value js-styled" data-decl=height>–</span>;</span>
+                <span class=code__line><span class=code__prop>border-radius</span>: <span class="code__value js-styled" data-decl=border-radius>–</span>;</span>
+              </code>
+            </div>
+            <div class=block>
+              <h3 class=block__label>Computed output — live</h3>
+              <code class="code code--computed" tabindex=0 aria-label="Computed output code">
+                <span class=code__line><span class=code__prop>width</span>: <span class="code__value js-computed" data-decl=width>–</span>;</span>
+                <span class=code__line><span class=code__prop>height</span>: <span class="code__value js-computed" data-decl=height>–</span>;</span>
+                <span class=code__line><span class=code__prop>border-radius</span>: <span class="code__value js-computed" data-decl=border-radius>–</span>;</span>
+              </code>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class=footer>
+      <div class="container footer__inner">
+        <nav class=footer__links aria-label="Project links">
+          <a href=https://www.npmjs.com/package/vw-calc>npm/vw-calc</a>
+          <a href=https://github.com/raymall/vw-calc>github/raymall/vw-calc</a>
+          <a href=https://github.com/raymall/vw-calc/blob/main/LICENSE.md>MIT license</a>
+        </nav>
+        <p class=footer__credit>© Raymall Pérez</p>
+      </div>
+      <div class=container>
+        <p class=footer__note>
+          This page dogfoods vw-calc() — every fluid size in its own stylesheet is a vw-calc() call
+          compiled by Sass.
+        </p>
+      </div>
+    </footer>
+
+    <script type=module src=scripts.js></script>
   
+
