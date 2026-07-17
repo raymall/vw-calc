@@ -4,7 +4,8 @@
   "description": "Sass function to scale pixel-based value(s) proportionally and accessible.",
   "main": "src/vw-calc.scss",
   "files": [
-    "src"
+    "src",
+    "_index.scss"
   ],
   "targets": {
     "main": false
