@@ -1,0 +1,3 @@
+/// Package entry point so `@use "vw-calc"` resolves via `--load-path=node_modules`.
+/// @access public
+@forward "./src/vw-calc";

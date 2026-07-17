@@ -13,6 +13,36 @@ $default-clamp: false !default;
 $default-dynamic: false !default;
 $default-base-font-size: 16 !default;
 
+/// Px-based value to its unitless rem number, e.g. 24 -> 1.5.
+/// @access private
+@function -rem-number($value, $base-font-size) {
+  @return u.strip-unit(u.rem-calc($value, $base-font-size));
+}
+
+/// Fluid "preferred value" for max()/clamp(): the line through
+/// ($min-width-px, $min-rem) and ($max-width-px, $max-rem).
+/// NOTE: `-*-calc`/`-*-expression`/`-*-element` names are parsed as legacy
+/// CSS special functions and emitted as raw text -- don't rename into that shape.
+/// @access private
+/// @return {Calculation} calc(<y-intercept>rem + <slope>vw)
+@function -fluid-value($min-rem, $max-rem, $min-width-px, $max-width-px, $base-font-size) {
+  $min-width-rem: math.div($min-width-px, $base-font-size);
+  $max-width-rem: math.div($max-width-px, $base-font-size);
+  $slope: math.div(($max-rem - $min-rem), ($max-width-rem - $min-width-rem));
+  $y-intercept: -$min-width-rem * $slope + $min-rem;
+
+  @return calc(#{$y-intercept}rem + #{$slope * 100}vw);
+}
+
+/// Fluid size that scales linearly with the viewport width.
+/// @param {Number | List} $values - `max`, `min max`, or `min max limit` sizes (px)
+/// @param {Number} $wide-width - wide end of the scaling window (unitless px)
+/// @param {Number} $narrow-width - narrow end of the scaling window (unitless px)
+/// @param {Bool} $narrow - scale across 0..$narrow-width instead
+/// @param {Bool} $clamp - stop scaling at the max size (3 values: always on)
+/// @param {Bool} $dynamic - 1 value only: scale below it to a proportional minimum
+/// @param {Number} $base-font-size - px per rem
+/// @return {Calculation | String} max()/clamp() rem+vw expression, or plain rem
 @function vw-calc(
   $values,
   $wide-width: $default-wide-width,
@@ -28,88 +58,78 @@ $default-base-font-size: 16 !default;
     @error "(#{$values}) | Maximum of 3 (three) values allowed.";
   }
 
+  @if $count < 1 {
+    @error "At least 1 (one) value required.";
+  }
+
   $min-width-px: u.strip-unit($narrow-width);
   $max-width-px: u.strip-unit($wide-width);
-  $min-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1), $base-font-size));
-  $max-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1), $base-font-size));
-  $limit-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1), $base-font-size));
 
   @if $narrow {
-    $max-width-px: u.strip-unit($narrow-width);
     $min-width-px: 0;
-  }
-  
-  @if $count == 1 {
-    $temp-min-value-size: math.div(($min-width-px * u.strip-unit($values)), $max-width-px);
-    $min-value-size: u.strip-unit(u.rem-calc($temp-min-value-size, $base-font-size));
-    $max-value-size: u.strip-unit(u.rem-calc($values, $base-font-size));
-  }
-
-  @if $count == 2 {
-    $min-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1), $base-font-size));
-    $max-value-size: u.strip-unit(u.rem-calc(list.nth($values, 2), $base-font-size));
-
-    @if list.nth($values, 1) > list.nth($values, 2) {
-      @error "#{list.nth($values, 1)} < #{list.nth($values, 2)} = false | {{max-value}} can't be lower than {{min-value}}.";
-    }
-
-    @if list.nth($values, 1) == list.nth($values, 2) {
-      @error "#{list.nth($values, 1)} === #{list.nth($values, 2)} | {{min-value}} cannot be equal to {{max-value}}.";
-    }
-  }
-
-  @if $count == 3 {
-    $clamp: true;
-    $min-value-size: u.strip-unit(u.rem-calc(list.nth($values, 1), $base-font-size));
-    $max-value-size: u.strip-unit(u.rem-calc(list.nth($values, 2), $base-font-size));
-    $limit-value-size: u.strip-unit(u.rem-calc(list.nth($values, 3), $base-font-size));
-
-    @if list.nth($values, 1) > list.nth($values, 2) {
-      @error "#{list.nth($values, 1)} < #{list.nth($values, 2)} = false | {{max-value}} can't be lower than {{min-value}}.";
-    }
-
-    @if list.nth($values, 2) > list.nth($values, 3) {
-      @error "#{list.nth($values, 2)} < #{list.nth($values, 3)} = false | {{limit-value}} can't be lower than {{max-value}}.";
-    }
-
-    @if list.nth($values, 1) == list.nth($values, 2) {
-      @error "#{list.nth($values, 1)} === #{list.nth($values, 2)} | {{min-value}} cannot be equal to {{max-value}}.";
-    }
-  }
-
-  $min-width: math.div($min-width-px, $base-font-size);
-  $max-width: math.div($max-width-px, $base-font-size);
-
-  $slope: math.div(($max-value-size - $min-value-size), ($max-width - $min-width));
-  $y-axis-intersection: -$min-width * $slope + $min-value-size;
-  $slope-angle: calc(#{$y-axis-intersection}rem + #{$slope * 100}vw);
-
-  @if $count == 3 {
-    @return clamp(#{$min-value-size}rem, $slope-angle, #{$limit-value-size}rem);
-  } 
-  
-  @if $count == 2 {
-    @if $clamp {
-      @return clamp(#{$min-value-size}rem, $slope-angle, #{$max-value-size}rem);
-    } @else {
-      @return max(#{$min-value-size}rem, $slope-angle);
-    }
+    $max-width-px: u.strip-unit($narrow-width);
   }
 
   @if $count == 1 {
-    @if $clamp {
-      @if $dynamic {
-        @return clamp(#{$min-value-size}rem, $slope-angle, #{$max-value-size}rem);
-      } @else {
-        @warn "Unnecessary declaration: vw-calc(#{list.nth($values, 1)}) === #{math.div(list.nth($values, 1), $base-font-size)}rem, use rem value directly instead.";
-        @return #{$max-value-size}rem;
-      }
+    $value: list.nth($values, 1);
+    $proportional-min-px: math.div(($min-width-px * u.strip-unit($value)), $max-width-px);
+    $min-rem: -rem-number($proportional-min-px, $base-font-size);
+    $max-rem: -rem-number($value, $base-font-size);
+    $fluid: -fluid-value($min-rem, $max-rem, $min-width-px, $max-width-px, $base-font-size);
+
+    @if $clamp and $dynamic {
+      @return clamp(#{$min-rem}rem, $fluid, #{$max-rem}rem);
+    } @else if $clamp {
+      @warn "Unnecessary declaration: vw-calc(#{$value}) === #{$max-rem}rem, use rem value directly instead.";
+      @return #{$max-rem}rem;
+    } @else if $dynamic {
+      @return max(#{$min-rem}rem, $fluid);
     } @else {
-      @if $dynamic {
-        @return max(#{$min-value-size}rem,$slope-angle);
-      } @else {
-        @return max(#{$max-value-size}rem, $slope-angle);
-      }
+      @return max(#{$max-rem}rem, $fluid);
     }
+  } @else if $count == 2 {
+    $min-value: list.nth($values, 1);
+    $max-value: list.nth($values, 2);
+
+    @if $min-value > $max-value {
+      @error "#{$min-value} < #{$max-value} = false | {{max-value}} can't be lower than {{min-value}}.";
+    }
+
+    @if $min-value == $max-value {
+      @error "#{$min-value} === #{$max-value} | {{min-value}} cannot be equal to {{max-value}}.";
+    }
+
+    $min-rem: -rem-number($min-value, $base-font-size);
+    $max-rem: -rem-number($max-value, $base-font-size);
+    $fluid: -fluid-value($min-rem, $max-rem, $min-width-px, $max-width-px, $base-font-size);
+
+    @if $clamp {
+      @return clamp(#{$min-rem}rem, $fluid, #{$max-rem}rem);
+    } @else {
+      @return max(#{$min-rem}rem, $fluid);
+    }
+  } @else {
+    $min-value: list.nth($values, 1);
+    $max-value: list.nth($values, 2);
+    $limit-value: list.nth($values, 3);
+
+    @if $min-value > $max-value {
+      @error "#{$min-value} < #{$max-value} = false | {{max-value}} can't be lower than {{min-value}}.";
+    }
+
+    @if $max-value > $limit-value {
+      @error "#{$max-value} < #{$limit-value} = false | {{limit-value}} can't be lower than {{max-value}}.";
+    }
+
+    @if $min-value == $max-value {
+      @error "#{$min-value} === #{$max-value} | {{min-value}} cannot be equal to {{max-value}}.";
+    }
+
+    $min-rem: -rem-number($min-value, $base-font-size);
+    $max-rem: -rem-number($max-value, $base-font-size);
+    $limit-rem: -rem-number($limit-value, $base-font-size);
+    $fluid: -fluid-value($min-rem, $max-rem, $min-width-px, $max-width-px, $base-font-size);
+
+    @return clamp(#{$min-rem}rem, $fluid, #{$limit-rem}rem);
   }
 }

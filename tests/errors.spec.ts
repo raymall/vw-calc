@@ -26,4 +26,9 @@ describe('vw-calc() error handling', () => {
     expect(() => compile('.test { font-size: vw-calc(8 24 16); }'))
       .toThrow(/can't be lower than/);
   });
+
+  it('rejects an empty value list', () => {
+    expect(() => compile('.test { font-size: vw-calc(()); }'))
+      .toThrow(/At least 1 \(one\) value required/);
+  });
 });
