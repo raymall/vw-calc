@@ -1,4 +1,4 @@
 {
   "extends": "@parcel/config-default",
-  "namers": ["./parcel-output-names.mjs", "..."]
+  "namers": ["./output-namer.mjs", "..."]
 }

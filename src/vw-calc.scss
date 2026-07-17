@@ -2,9 +2,11 @@
 @use "sass:list";
 @use "./utils" as u;
 
-// Inspired by Pedro Rodríguez's article in CSS-Tricks
-// Article: https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/
-// Twitter: https://twitter.com/pprg1996
+////
+/// Fluid sizing inspired by Pedro Rodríguez's article in CSS-Tricks.
+/// @link https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/ Linearly Scale font-size with CSS clamp() Based on the Viewport
+/// @link https://twitter.com/pprg1996 Pedro Rodríguez on Twitter
+////
 
 $default-wide-width: 1440 !default;
 $default-narrow-width: 375 !default;

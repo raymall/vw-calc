@@ -3,16 +3,29 @@
 @use "sass:meta";
 @use "sass:string";
 
+/// Whether to `@warn` when a non-number value is passed to `value-to-rem()`.
+/// @type Bool
 $unit-warnings: true !default;
 
+/// Strips the unit from a number, e.g. `24px` -> `24`.
+/// @param {Number} $num - number with or without a unit
+/// @return {Number} unitless number
 @function strip-unit($num) {
   @return math.div($num, $num * 0 + 1);
 }
 
+/// Extracts the unit of a number as a string, e.g. `24px` -> `"px"`.
+/// @param {Number} $value - number with or without a unit
+/// @return {String} the unit, or an empty string if unitless
 @function get-unit($value) {
   @return string.slice($value * 0 + "", 2, -1);
 }
 
+/// Converts a single value to rem. `em` is treated as `rem`; `rem` passes
+/// through unchanged; anything else is divided by `$base`. `0` loses its unit.
+/// @param {Number} $value - value to convert
+/// @param {Number} $base [null] - px per rem used for the conversion
+/// @return {Number} the value in rem (or unchanged if not a number)
 @function value-to-rem($value, $base: null) {
   @if meta.type-of($value) != "number" {
     @if $unit-warnings {
@@ -39,6 +52,10 @@ $unit-warnings: true !default;
   @return $value;
 }
 
+/// Converts one value or a list of values (e.g. margin shorthand) to rem.
+/// @param {Number | List} $values - px-based value(s) to convert
+/// @param {Number} $base [16] - px per rem used for the conversion
+/// @return {Number | List} the converted value(s)
 @function rem-calc($values, $base: 16) {
   $rem-values: ();
   $count: list.length($values);
