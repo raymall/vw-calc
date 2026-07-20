@@ -45,7 +45,7 @@ const formatNumber = (value: number): string => {
   const exponential = digits.match(/^(\d+)(?:\.(\d+))?e([+-]\d+)$/)
 
   if (exponential) {
-    const [, intPart, fracPart = '', exponentRaw] = exponential
+    const [, intPart = '', fracPart = '', exponentRaw = ''] = exponential
     const allDigits = intPart + fracPart
     const pointIndex = intPart.length + Number(exponentRaw)
 
@@ -58,7 +58,7 @@ const formatNumber = (value: number): string => {
     }
   }
 
-  let [whole, fraction = ''] = digits.split('.')
+  let [whole = '', fraction = ''] = digits.split('.')
 
   if (fraction.length > 10) {
     const roundUp = fraction.charCodeAt(10) >= 53
@@ -140,7 +140,7 @@ export const vwCalc = (values: number[], options: VwCalcOptions = {}): VwCalcRes
   }
 
   if (count === 1) {
-    const value = values[0]
+    const value = values[0] ?? 0
     const proportionalMinPx = (minWidthPx * value) / maxWidthPx
     const minRem = remNumber(proportionalMinPx, baseFontSize)
     const maxRem = remNumber(value, baseFontSize)
@@ -164,8 +164,8 @@ export const vwCalc = (values: number[], options: VwCalcOptions = {}): VwCalcRes
     return { value: `max(${formatNumber(maxRem)}rem, ${fluid})` }
   }
 
-  const minValue = values[0]
-  const maxValue = values[1]
+  const minValue = values[0] ?? 0
+  const maxValue = values[1] ?? 0
 
   if (minValue > maxValue) {
     throw new VwCalcError(
@@ -174,7 +174,7 @@ export const vwCalc = (values: number[], options: VwCalcOptions = {}): VwCalcRes
   }
 
   if (count === 3) {
-    const limitValue = values[2]
+    const limitValue = values[2] ?? 0
 
     if (maxValue > limitValue) {
       throw new VwCalcError(

@@ -13,7 +13,10 @@ const AT_TOLERANCE = 4
 /** Viewport distance (px) to a breakpoint that counts as "approaching" it */
 const NEAR_TOLERANCE = 64
 
-const STATE_LABELS: Record<string, string> = {
+/** Proximity of the viewport to a breakpoint guide */
+type GuideState = 'at' | 'near' | 'beyond' | 'below'
+
+const STATE_LABELS: Record<GuideState, string> = {
   at: 'at breakpoint',
   near: 'approaching',
   beyond: 'viewport beyond',

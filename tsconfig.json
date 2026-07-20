@@ -1,0 +1,37 @@
+{
+  "include": ["public/scripts", "tests"],
+  "compilerOptions": {
+    // Environment
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "moduleDetection": "force",
+    // Modules — resolve like Parcel
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    // TS 7 does not auto-load @types packages — declare the two globals sets
+    "types": ["node", "jest"],
+    // Strict core + beyond-strict checks
+    "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noUncheckedSideEffectImports": true,
+    // Hygiene
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    // Single-file-transpiler safety (Parcel/SWC, Jest transform)
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    // Interop
+    "esModuleInterop": true,
+    // Roles: tsc type-checks; Parcel and @swc/jest transpile
+    "noEmit": true,
+    "skipLibCheck": true,
+    "noErrorTruncation": true
+  }
+}

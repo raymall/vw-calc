@@ -1,34 +1,34 @@
-const path = require('path');
-const sass = require('sass');
+import path from 'node:path'
+import * as sass from 'sass'
 
-const compile = (body) =>
-  sass.compileString(`@use "vw-calc" as *;\n${body}`, {
+const compile = (body: string): sass.CompileResult =>
+  sass.compileString(`@use 'vw-calc' as *;\n${body}`, {
     loadPaths: [path.resolve(process.cwd(), 'src')],
-  });
+  })
 
 describe('vw-calc() error handling', () => {
   it('rejects more than 3 values', () => {
     expect(() => compile('.test { font-size: vw-calc(8 16 24 32); }'))
-      .toThrow(/Maximum of 3 \(three\) values allowed/);
-  });
+      .toThrow(/Maximum of 3 \(three\) values allowed/)
+  })
 
   it('rejects a min value greater than the max value', () => {
     expect(() => compile('.test { font-size: vw-calc(32 16); }'))
-      .toThrow(/can't be lower than/);
-  });
+      .toThrow(/can't be lower than/)
+  })
 
   it('rejects equal min and max values', () => {
     expect(() => compile('.test { font-size: vw-calc(16 16); }'))
-      .toThrow(/cannot be equal to/);
-  });
+      .toThrow(/cannot be equal to/)
+  })
 
   it('rejects a limit value lower than the max value', () => {
     expect(() => compile('.test { font-size: vw-calc(8 24 16); }'))
-      .toThrow(/can't be lower than/);
-  });
+      .toThrow(/can't be lower than/)
+  })
 
   it('rejects an empty value list', () => {
     expect(() => compile('.test { font-size: vw-calc(()); }'))
-      .toThrow(/At least 1 \(one\) value required/);
-  });
-});
+      .toThrow(/At least 1 \(one\) value required/)
+  })
+})

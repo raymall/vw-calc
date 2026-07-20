@@ -1,15 +1,12 @@
-const path = require('path');
-const sassTrue = require('sass-true');
-const glob = require('glob');
+import path from 'node:path'
+import { globSync } from 'glob'
+import { runSass } from 'sass-true'
 
-const testPath = `tests/**/*.spec.scss`;
+const testPath = 'tests/**/*.spec.scss'
 
 describe('Sass', () => {
-    const testFiles = glob.sync(path.resolve(process.cwd(), testPath))
+  const testFiles = globSync(path.resolve(process.cwd(), testPath))
 
-    /** Runs each spec file through sass-true, wiring Jest's describe()/it(). */
-    testFiles.forEach((sassFile) => sassTrue.runSass(
-      { describe, it },
-      sassFile
-    ))
+  /** Runs each spec file through sass-true, wiring Jest's describe()/it(). */
+  testFiles.forEach((sassFile) => runSass({ describe, it }, sassFile))
 })
